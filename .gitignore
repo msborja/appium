@@ -1,0 +1,5 @@
+/.idea/
+.venv/bin
+.env
+/.venv
+/allure-results
