@@ -3,9 +3,6 @@ from allure import step
 from selene import browser, be
 from appium.webdriver.common.appiumby import AppiumBy
 
-from conftest import mobile_management
-from appium.webdriver.extensions.android.nativekey import AndroidKey
-
 from bg_spas_tests.data.codes import Codes
 
 
