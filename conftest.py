@@ -22,7 +22,7 @@ def mobile_management():
             "appium:appPackage": "com.brealit.bg.spas",
             # "appium:appActivity": "com.brealit.bg.spas.MainActivity",
             "appium:automationName": "UiAutomator2",
-            # "appium: ignoreHiddenApiPolicyError": True,
+            "appium: ignoreHiddenApiPolicyError": True,
         })
 
     browser.config.driver = webdriver.Remote('http://127.0.0.1:4723', options=options)
@@ -30,9 +30,9 @@ def mobile_management():
 
     yield
 
-    attach.add_screenshot(browser)
-    attach.add_xml(browser)
-    attach.add_video(browser)
+    # attach.add_screenshot(browser)
+    # attach.add_xml(browser)
+    # attach.add_video(browser)
 
     with allure.step('Close app session'):
         browser.quit()

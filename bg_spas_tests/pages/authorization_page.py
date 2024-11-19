@@ -23,8 +23,11 @@ class Authorization:
 
     with step('Enter mobile phone'):
         def enter_mobile_phone(self):
-            browser.element("// android.widget.TextView[@text = 'ВХОД ДЛЯ СОТРУДНИКОВ']").should(be.visible).click()
-            browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText')).click().type('79139129200')
+            browser.element("// android.widget.TextView[@text = 'ВХОД ДЛЯ СОТРУДНИКОВ']").click()
+            browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText')).should(be.visible).click()
+            sleep(2)
+            browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText')).should(be.enabled).type('79139129200')
+
             browser.element((AppiumBy.ACCESSIBILITY_ID, "ВХОД")).click()
             sleep(5)
             return self
