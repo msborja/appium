@@ -5,49 +5,31 @@ import allure
 from appium.options.android import UiAutomator2Options
 from appium import webdriver
 from selene import browser
-from dotenv import load_dotenv
-from utils import attach
-
-
-@pytest.fixture(scope='session', autouse=True)
-def load_env():
-    load_dotenv()
+from bg_spas_tests.utils import attach
 
 
 @pytest.fixture(scope='function', autouse=True)
 def mobile_management():
     with allure.step('Configurate options'):
-        user_name = os.getenv("USER_NAME")
-        access_key = os.getenv("ACCESS_KEY")
         options = UiAutomator2Options().load_capabilities({
-            "platformName": "android",
-            "platformVersion": "11.0",
-            "deviceName": "Google Pixel 4",
-
-            "app": "bs://sample.app",
-
-            'bstack:options': {
-                "projectName": "First Python project",
-                "buildName": "browserstack-build-1",
-                "sessionName": "BStack first_test",
-
-                "userName": user_name,
-                "accessKey": access_key
-            }
+            "platformName": "Android",
+            "appium:platformVersion": "10",
+            "appium:deviceName": "emulator-5554",
+            "appium:app": "/Users/mborja/Downloads/bg_spas(2.1.1).apk",
+            "appium:appPackage": "com.brealit.bg.spas",
+            # "appium:appActivity": "com.brealit.bg.spas.MainActivity",
+            "appium:automationName": "UiAutomator2",
+            # "appium: ignoreHiddenApiPolicyError": True,
         })
 
-
-
-    browser.config.driver = webdriver.Remote('http://hub.browserstack.com/wd/hub',
-                                                 options=options)
+    browser.config.driver = webdriver.Remote('http://127.0.0.1:4723', options=options)
     browser.config.timeout = float(os.getenv('timeout', '10.0'))
-
 
     yield
 
-    attach.add_screenshot(browser)
-    attach.add_xml(browser)
-    attach.add_video(browser)
+    # attach.add_screenshot(browser)
+    # attach.add_xml(browser)
+    # attach.add_video(browser)
 
     with allure.step('Close app session'):
         browser.quit()
