@@ -16,11 +16,6 @@ def load_env():
     load_dotenv()
 
 
-@pytest.fixture(scope="session")
-def context():
-    return {}
-
-
 @pytest.fixture(scope='session')
 def mobile_driver():
     with allure.step('Configurate options'):
