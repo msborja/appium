@@ -16,7 +16,6 @@ from conftest import mobile_driver
 
 
 class MobileSpas:
-
     def __init__(self, mobile_driver):
         browser.config.driver = mobile_driver
 

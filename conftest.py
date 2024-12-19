@@ -55,7 +55,7 @@ def mobile_driver():
     browser.quit()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='session')
 def web_driver():
     options = Options()
     options.add_argument("--start-maximized")

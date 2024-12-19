@@ -11,6 +11,8 @@ from conftest import context
 
 
 class WebSpas:
+    def __init__(self, web_driver):
+        browser.config.driver = web_driver
 
     @allure.step('Authorization')
     def authorization(self):

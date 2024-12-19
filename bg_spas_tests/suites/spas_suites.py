@@ -3,15 +3,15 @@ from bg_spas_tests.pages.authorization_page import Authorization
 from bg_spas_tests.pages.mobile_spas_page import MobileSpas
 from bg_spas_tests.pages.web_spas_page import WebSpas
 from bg_spas_tests.data.codes import Codes
-from conftest import mobile_driver
+from conftest import mobile_driver, web_driver
 
 
 class SpasSuites:
-    def __init__(self, context, mobile_driver):
+    def __init__(self, context, mobile_driver, web_driver):
+        self.context = context
         self.authorization = Authorization(mobile_driver)
         self.mobile_spas = MobileSpas(mobile_driver)
-        self.web_spas = WebSpas()
-        self.context = context
+        self.web_spas = WebSpas(web_driver)
 
     @allure.step('Authorize in mobile app')
     def authorize_in_mobile_app(self):
@@ -79,5 +79,3 @@ class SpasSuites:
          .checking_sync_severity(self.context)
          .checking_sync_probability(self.context)
          .checking_sync_attachment())
-
-
