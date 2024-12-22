@@ -1,5 +1,5 @@
 import allure
-from bg_spas_tests.suites.spas_suites import SpasSuites
+from bg_spas_collection.suites.spas_suites import SpasSuites
 
 
 @allure.story('Full SPAS card test')

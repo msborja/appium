@@ -6,8 +6,8 @@ from appium import webdriver as appium_webdriver
 from selenium import webdriver as selenium_webdriver
 from selenium.webdriver.chrome.options import Options
 from appium.options.android import UiAutomator2Options
-from bg_spas_tests.utils import attach
-from bg_spas_tests.utils.attach import add_screenshot
+from bg_spas_collection.utils import attach
+from bg_spas_collection.utils.attach import add_screenshot
 
 
 @pytest.fixture(scope='session')

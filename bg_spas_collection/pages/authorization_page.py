@@ -4,7 +4,7 @@ import os
 from time import sleep
 from selene import be, browser
 from dotenv import load_dotenv
-from bg_spas_tests.data.codes import Codes
+from bg_spas_collection.data.codes import Codes
 from appium.webdriver.common.appiumby import AppiumBy
 
 

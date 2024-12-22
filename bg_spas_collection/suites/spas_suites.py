@@ -4,10 +4,10 @@ import os
 from selenium import webdriver as selenium_webdriver
 from selenium.webdriver.chrome.options import Options
 
-from bg_spas_tests.pages.authorization_page import Authorization
-from bg_spas_tests.pages.mobile_spas_page import MobileSpas
-from bg_spas_tests.pages.web_spas_page import WebSpas
-from bg_spas_tests.data.codes import Codes
+from bg_spas_collection.pages.authorization_page import Authorization
+from bg_spas_collection.pages.mobile_spas_page import MobileSpas
+from bg_spas_collection.pages.web_spas_page import WebSpas
+from bg_spas_collection.data.codes import Codes
 
 
 class SpasSuites:
