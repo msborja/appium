@@ -1,5 +1,6 @@
 import os
 import pytest
+
 from dotenv import load_dotenv
 from selene import Browser, Config
 from appium import webdriver as appium_webdriver

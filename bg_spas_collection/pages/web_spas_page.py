@@ -7,8 +7,6 @@ from selene import browser, be
 from datetime import datetime
 from selene.core.query import text
 from selenium.common import NoSuchElementException
-from selenium import webdriver as selenium_webdriver
-from selenium.webdriver.chrome.options import Options
 
 
 class WebSpas:

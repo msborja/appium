@@ -1,8 +1,4 @@
 import allure
-import os
-
-from selenium import webdriver as selenium_webdriver
-from selenium.webdriver.chrome.options import Options
 
 from bg_spas_collection.pages.authorization_page import Authorization
 from bg_spas_collection.pages.mobile_spas_page import MobileSpas

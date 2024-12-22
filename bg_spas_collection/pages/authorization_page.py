@@ -49,7 +49,7 @@ class Authorization:
     def type_correct_sms_code(self, codes: Codes, mobile_browser):
         browser.config.driver = mobile_browser.config.driver
 
-        sleep(2)
+        sleep(3)
         for i, num in enumerate(codes.sms_code, start=1):
             browser.element(f'//android.widget.EditText[{i}]').should(be.visible).click().type(f'{num}')
             # Решение для эмулятора:
@@ -61,7 +61,7 @@ class Authorization:
     def type_incorrect_sms_code(self, codes: Codes, mobile_browser):
         browser.config.driver = mobile_browser.config.driver
 
-        sleep(2)
+        sleep(3)
         for i, num in enumerate(codes.sms_code, start=1):
             browser.element(f'//android.widget.EditText[{i}]').should(be.visible).click().type(f'{num}')
             # Решение для эмулятора:
@@ -73,7 +73,7 @@ class Authorization:
     def setting_pin_code(self, codes: Codes, mobile_browser):
         browser.config.driver = mobile_browser.config.driver
 
-        sleep(2)
+        sleep(3)
         for i, num in enumerate(codes.pin_code, start=1):
             browser.element(f'//android.widget.EditText[{i}]').should(be.visible).click().type(f'{num}')
             # Решение для эмулятора:
@@ -85,7 +85,7 @@ class Authorization:
     def type_correct_pin_code(self, codes: Codes, mobile_browser):
         browser.config.driver = mobile_browser.config.driver
 
-        sleep(2)
+        sleep(3)
         for i, num in enumerate(codes.pin_code, start=1):
             browser.element(f'//android.widget.EditText[{i}]').should(be.visible).click().type(f'{num}')
             # Решение для эмулятора:
@@ -97,7 +97,7 @@ class Authorization:
     def type_incorrect_pin_code(self, codes: Codes, mobile_browser):
         browser.config.driver = mobile_browser.config.driver
 
-        sleep(2)
+        sleep(3)
         for i, num in enumerate(codes.pin_code, start=1):
             browser.element(f'//android.widget.EditText[{i}]').should(be.visible).click().type(f'{num}')
             # Решение для эмулятора:

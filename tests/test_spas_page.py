@@ -1,4 +1,5 @@
 import allure
+
 from bg_spas_collection.suites.spas_suites import SpasSuites
 
 
