@@ -1,10 +1,11 @@
 import re
+import os
 import allure
 import random
 import string
 
 from time import sleep
-from selene import browser, be
+from selene import be, browser
 from datetime import datetime
 from selene.core.query import text
 from appium.webdriver.common.appiumby import AppiumBy
@@ -12,12 +13,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from conftest import mobile_driver
-
 
 class MobileSpas:
-    def __init__(self, mobile_driver):
-        browser.config.driver = mobile_driver
+
+    def __init__(self):
         self.card_number = None
         self.random_organization = None
         self.random_division = None
@@ -37,44 +36,31 @@ class MobileSpas:
         self.random_probability = None
         self.quantity_attachment = '4'
 
-        # self.card_number = '3803'
-        # self.random_organization = 'Филиал "А1"'
-        # self.random_division = '63сБ(Б№А )Б'
-        # self.random_object = 'Объект'
-        # self.random_type_card = 'Предложение по улучшению'
-        # self.random_description = 'Открыта форточка'
-        # self.random_suggested = 'Закрыть форточку'
-        # self.random_measures = 'Закрыли форточку'
-        # self.random_name = 'Иванов Иван'
-        # self.random_fix_date = '2024-10-23'
-        # self.random_when_fix_date = '2024-10-23'
-        # self.random_hazard_category = 'Вибрация'
-        # self.random_damage_category = 'Экология'
-        # self.random_damage_subcategory = 'Выхлопы в воздух'
-        # self.random_severity = '1 Легкая (первая помощь/потеря менее 30 000 р.)'
-        # self.random_probability = '1 Очень низкая (невероятно, неизвестно о подобных происшествиях)'
-        # # self.quantity_attachment = 1
-        # self.random_participation = ['С участием Подрядчика', 'С участием Газпром бурение']
-
-        # self.name_reporting = None
+        self.timeout = 20
 
     @allure.step('Open SPAS tab')
-    def open_spas_page(self):
-        sleep(25)
+    def open_spas_page(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
+        sleep(20)
         browser.element((AppiumBy.ACCESSIBILITY_ID, 'СПАС')).click()
-        sleep(13)
+        sleep(25)
 
         return self
 
     @allure.step('Add SPAS card')
-    def add_spas_card(self):
+    def add_spas_card(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element((AppiumBy.ACCESSIBILITY_ID, 'add')).click()
         sleep(3)
 
         return self
 
     @allure.step('Closing allow access notification')
-    def closing_allow_access_notification(self):
+    def closing_allow_access_notification(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         allow_button = browser.element('(//android.widget.Button)[1]')
         if allow_button.matching(be.visible):
             allow_button.click()
@@ -83,16 +69,20 @@ class MobileSpas:
         return self
 
     @allure.step('Closing warning notification')
-    def closing_warning_notification(self):
+    def closing_warning_notification(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         sleep(1)
         browser.element('//android.widget.TextView[@text="ОК"]').should(be.enabled).click()
 
         return self
 
     @allure.step('Filling "Organization" field')
-    def filling_organization_field(self):
-        browser.element('//android.widget.ListView/android.view.View[3]/android.view.View/android.view.View'
-                        ).click()
+    def filling_organization_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
+        browser.element(
+            '//android.widget.ListView/android.view.View[3]/android.view.View/android.view.View').click()
 
         dropdown_organizations = browser.all(
             '//android.widget.ListView//android.widget.CheckedTextView')
@@ -106,7 +96,9 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "Division" field')
-    def filling_division_field(self):
+    def filling_division_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element('//android.widget.TextView[@text="Подразделение *"]/following-sibling::android.view.View[1]'
                         ).should(be.visible).click()
 
@@ -138,15 +130,19 @@ class MobileSpas:
         return random_text
 
     @allure.step('Filling "Object" field')
-    def filling_object_field(self):
-        self.random_object = mobileSpas.generate_random_text(15)
+    def filling_object_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
+        self.random_object = MobileSpas.generate_random_text(15)
         browser.element('//android.widget.TextView[@text="Объект"]/following-sibling::*[1]'
                         ).type(self.random_object)
 
         return self
 
     @allure.step('Filling "Type card" field')
-    def filling_type_card_field(self):
+    def filling_type_card_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         random_choice_type_card = random.randint(1, 3)
         random_element = browser.element(
             f'//android.widget.TextView[@text="Вид карточки"]'
@@ -163,7 +159,9 @@ class MobileSpas:
         return self
 
     @allure.step('Swipe')
-    def swipe(self):
+    def swipe(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         screen_size = browser.config.driver.get_window_size()
         start_x = screen_size['width'] / 2
         start_y = screen_size['height'] * 0.8
@@ -173,7 +171,9 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "With participation" field')
-    def filling_participation_field(self):
+    def filling_participation_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         available_indices = [4, 5, 6]
         random.shuffle(available_indices)
         selected_indices = available_indices[:random.randint(1, 3)]
@@ -188,7 +188,7 @@ class MobileSpas:
             clicked_elements.append(element_locator)
 
         for locator in clicked_elements:
-            element = WebDriverWait(browser.driver, 10).until(
+            element = WebDriverWait(browser.driver, self.timeout).until(
                 EC.visibility_of_element_located((By.XPATH, locator))
             )
             self.random_participation.append(element.text)
@@ -196,8 +196,10 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "Description" field')
-    def filling_description_field(self):
-        self.random_description = mobileSpas.generate_random_text(25)
+    def filling_description_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
+        self.random_description = MobileSpas.generate_random_text(25)
 
         browser.element('//android.widget.TextView[@text="Описание *"]/following-sibling::*[1]'
                         ).type(self.random_description)
@@ -206,8 +208,10 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "Suggested" field')
-    def filling_suggested_field(self):
-        self.random_suggested = mobileSpas.generate_random_text(44)
+    def filling_suggested_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
+        self.random_suggested = MobileSpas.generate_random_text(44)
         browser.element('//android.widget.TextView[@text="Предложено"]/following-sibling::*[1]'
                         ).type(self.random_suggested)
         sleep(1)
@@ -215,8 +219,10 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "Measures" field')
-    def filling_measures_field(self):
-        self.random_measures = mobileSpas.generate_random_text(50)
+    def filling_measures_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
+        self.random_measures = MobileSpas.generate_random_text(50)
         browser.element('//android.widget.TextView[@text="Принятые меры"]/following-sibling::*[1]'
                         ).type(self.random_measures)
         sleep(1)
@@ -231,8 +237,10 @@ class MobileSpas:
         return random_text
 
     @allure.step('Filling "Full name" filed')
-    def filling_full_name_field(self):
-        self.random_name = mobileSpas.generate_random_name(10)
+    def filling_full_name_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
+        self.random_name = MobileSpas.generate_random_name(10)
 
         browser.element('//android.widget.TextView[@text="Ответственный за устранение (Ф.И.О.)"]'
                         '/following-sibling::*[1]').type(self.random_name)
@@ -241,7 +249,9 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "Fix date" field')
-    def filling_fix_date_field(self):
+    def filling_fix_date_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element('//android.widget.TextView[@text="Срок устранения"]/following-sibling::*[1]').click()
 
         random_choice_date = random.randint(1, 25)
@@ -259,7 +269,9 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "When fix date" field')
-    def filling_when_fix_date_field(self):
+    def filling_when_fix_date_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element('//android.widget.TextView[@text="Когда устранено"]/following-sibling::*[1]').click()
 
         random_choice_date = random.randint(1, 25)
@@ -277,7 +289,9 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "Hazard category" field')
-    def filling_hazard_category_field(self):
+    def filling_hazard_category_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element(
             '//android.widget.TextView[contains(@text, "Категория опасности")]/following-sibling::*[1]').click()
         sleep(1)
@@ -298,7 +312,9 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "Damage category" field')
-    def filling_damage_category_field(self):
+    def filling_damage_category_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element(
             '//android.widget.TextView[contains(@text, "Категория потенциального")]/following-sibling::*[1]'
         ).click()
@@ -320,7 +336,9 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "Damage subcategory" field')
-    def filling_damage_subcategory_field(self):
+    def filling_damage_subcategory_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element(
             '//android.widget.TextView[contains(@text, "Подкатегория потенциального")]'
             '/following-sibling::*[1]').click()
@@ -341,7 +359,9 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "Severity" field')
-    def filling_severity_field(self):
+    def filling_severity_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element(
             '//android.widget.TextView[contains(@text, "Тяжесть последствий")]'
             '/following-sibling::*[1]').click()
@@ -362,7 +382,9 @@ class MobileSpas:
         return self
 
     @allure.step('Filling "Probability" field')
-    def filling_probability_field(self):
+    def filling_probability_field(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element(
             '//android.widget.TextView[contains(@text, "Вероятность")]'
             '/following-sibling::*[1]').click()
@@ -383,7 +405,9 @@ class MobileSpas:
         return self
 
     @allure.step('Take a photo')
-    def take_photo(self):
+    def take_photo(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element('(//android.view.View[@resource-id="sheet_button"])[1]').click()
         sleep(1)
         allow_button = browser.element('(//android.widget.Button)[1]')
@@ -405,7 +429,9 @@ class MobileSpas:
 
     # Решение для эмулятора
     # @allure.step('Attach a photo')
-    # def attach_photo(self):
+    # def attach_photo(self, mobile_browser):
+    # browser.config.driver = mobile_browser.config.driver
+
     #     current_dir = os.path.dirname(os.path.abspath(__file__))
     #     resource_dir = os.path.join(current_dir, "../../resources")
     #     resource_dir = os.path.abspath(resource_dir)
@@ -423,18 +449,23 @@ class MobileSpas:
     #     return self
 
     @allure.step('Attach a photo')
-    def attach_photo(self):
+    def attach_photo(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         for _ in range(3):
             sleep(2)
             browser.element('(//android.view.View[@resource-id="sheet_button"])[2]').click()
-            sleep(2)
+            sleep(3)
             browser.element(
                 '//android.widget.ImageView[@resource-id="com.google.android.documentsui:id/icon_thumb"]').click()
+            sleep(1)
 
         return self
 
     @allure.step('Send card')
-    def send_card_to_web(self):
+    def send_card_to_web(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element((AppiumBy.ACCESSIBILITY_ID, 'cloud_upload ОТПРАВИТЬ')).click()
         current_datetime = datetime.now().strftime("%d.%m.%Y %H:%M")
         card_element = f'//android.view.View[contains(@content-desc, "{current_datetime}")]'
@@ -442,16 +473,16 @@ class MobileSpas:
             EC.visibility_of_element_located((By.XPATH, card_element)))
         content_desc = element.get_attribute('content-desc')
         match = re.search(r'# (\d+)', content_desc)
+        sleep(3)
         if match:
             self.card_number = match.group(1)
 
         return self
 
     @allure.step('Save card to draft')
-    def save_card_to_draft(self):
+    def save_card_to_draft(self, mobile_browser):
+        browser.config.driver = mobile_browser.config.driver
+
         browser.element((AppiumBy.ACCESSIBILITY_ID, 'cloud_upload ОТПРАВИТЬ')).click()
 
         return self
-
-
-mobileSpas = MobileSpas(mobile_driver)

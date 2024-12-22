@@ -4,7 +4,7 @@ from bg_spas_tests.data.codes import Codes
 
 
 @allure.story('Successful authorization')
-def test_successful_authorization(mobile_driver):
+def test_successful_authorization(mobile_browser):
     codes = Codes(
         sms_code=['9', '2', '0', '0'],
         pin_code=['1', '2', '3', '4']
@@ -17,7 +17,7 @@ def test_successful_authorization(mobile_driver):
 
 
 @allure.story('Unsuccessful authorization')
-def test_unsuccessful_authorization(mobile_driver):
+def test_unsuccessful_authorization(mobile_browser):
     codes = Codes(
         sms_code=['4', '9', '1', '3'],
         pin_code=['1', '2', '3', '4']
