@@ -54,6 +54,7 @@ def mobile_browser_init(load_env):
             attach.add_video_mobile(mobile_browser)
         finally:
             mobile_driver.quit()
+            mobile_driver = None
 
 
 @pytest.fixture(scope="function")
