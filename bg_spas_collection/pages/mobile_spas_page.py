@@ -164,7 +164,7 @@ class MobileSpas:
 
         screen_size = browser.config.driver.get_window_size()
         start_x = screen_size['width'] / 2
-        start_y = screen_size['height'] * 0.8
+        start_y = screen_size['height'] * 0.5
         end_y = screen_size['height'] * 0.2
         browser.config.driver.swipe(start_x, start_y, start_x, end_y)
 
