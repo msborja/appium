@@ -467,6 +467,7 @@ class MobileSpas:
         browser.config.driver = mobile_browser.config.driver
 
         browser.element((AppiumBy.ACCESSIBILITY_ID, 'cloud_upload ОТПРАВИТЬ')).click()
+        sleep(3)
         current_datetime = datetime.now().strftime("%d.%m.%Y %H:%M")
         card_element = f'//android.view.View[contains(@content-desc, "{current_datetime}")]'
         element = WebDriverWait(browser.driver, 10).until(
