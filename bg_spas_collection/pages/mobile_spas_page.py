@@ -6,7 +6,7 @@ import string
 
 from time import sleep
 from selene import be, browser
-from datetime import datetime
+from datetime import datetime, timedelta
 from selene.core.query import text
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.common.by import By
@@ -486,8 +486,16 @@ class MobileSpas:
 
         browser.element((AppiumBy.ACCESSIBILITY_ID, 'cloud_upload ОТПРАВИТЬ')).click()
         sleep(3)
-        current_datetime = datetime.now().strftime("%d.%m.%Y %H:%M")
-        card_element = f'//android.view.View[contains(@content-desc, "{current_datetime}")]'
+
+        current_datetime_now = datetime.now()
+        current_datetime_str = current_datetime_now.strftime("%d.%m.%Y %H:%M")
+        previous_datetime_str = (current_datetime_now - timedelta(minutes=1)).strftime("%d.%m.%Y %H:%M")
+
+        card_element = (
+            f'//android.view.View[contains(@content-desc, "{current_datetime_str}") or '
+            f'contains(@content-desc, "{previous_datetime_str}")]'
+        )
+
         element = WebDriverWait(browser.driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, card_element)))
         content_desc = element.get_attribute('content-desc')
