@@ -77,4 +77,4 @@ class SpasSuites:
          .checking_sync_damage_subcategory(mobile_spas, web_driver)
          .checking_sync_severity(mobile_spas, web_driver)
          .checking_sync_probability(mobile_spas, web_driver)
-         .checking_sync_attachment(web_driver))
+         .checking_sync_attachment(mobile_spas, web_driver))
