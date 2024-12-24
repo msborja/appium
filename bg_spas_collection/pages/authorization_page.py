@@ -42,8 +42,9 @@ class Authorization:
         # Решение для эмулятора:
         # browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText')).click()
         # os.system("adb shell input text '79139129200'")
+        sleep(2)
         browser.element((AppiumBy.ACCESSIBILITY_ID, "ВХОД")).click()
-        sleep(1)
+        sleep(2)
         return self
 
     @allure.step('Type correct SMS code')
