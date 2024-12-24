@@ -343,7 +343,7 @@ class WebSpas:
     def checking_sync_attachment(self, mobile_spas, web_driver):
         browser.config.driver = web_driver
 
-        expected_quantity_attachment = mobile_spas.self.quantity_attachment
+        expected_quantity_attachment = mobile_spas.quantity_attachment
         browser.element("[id='spas_cardsFormfilesCaption']").click()
         text_element = browser.element(
             '//*[@id="spas_cardsfiles_embededList_Table_info"]').should(be.visible).get(text)
