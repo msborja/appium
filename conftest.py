@@ -31,12 +31,12 @@ def mobile_browser_init(load_env):
                 "platformName": "android",
                 "platformVersion": "11.0",
                 "deviceName": "Google Pixel 4",
-                "timezone": 'Moscow',
-                "app": "bs://67eba6c232322a3f3060f0524ffd270e8b8d596b",
+                "app": "bs://081d0ea196cf35675f23093215cf24b321216e08",
                 'bstack:options': {
                     "projectName": "bg_spas",
                     "buildName": "mobile_spas_test",
                     "sessionName": "mobile_spas",
+                    "timezone": 'Moscow',
                     "userName": user_name,
                     "accessKey": access_key
                 }
@@ -45,16 +45,18 @@ def mobile_browser_init(load_env):
             mobile_browser = Browser(Config(driver=mobile_driver, timeout=float(os.getenv('timeout', '10.0'))))
         return mobile_browser, mobile_driver
 
-    yield _init
-
-    if mobile_driver:
-        try:
-            attach.add_screenshot(mobile_browser)
-            attach.add_xml(mobile_browser)
-            attach.add_video_mobile(mobile_browser)
-        finally:
-            mobile_driver.quit()
-            mobile_driver = None
+    try:
+        yield _init
+    finally:
+        if mobile_driver:
+            try:
+                attach.add_screenshot(mobile_browser)
+                attach.add_xml(mobile_browser)
+                attach.add_video_mobile(mobile_browser)
+            except Exception as e:
+                print(f"Failed to attach mobile browser artifacts: {e}")
+            finally:
+                mobile_driver.quit()
 
 
 @pytest.fixture(scope="function")
@@ -90,13 +92,16 @@ def web_browser_init(load_env):
             web_browser = Browser(Config(driver=web_driver, timeout=float(os.getenv('timeout', '10.0'))))
         return web_browser, web_driver
 
-    yield _init
-
-    if web_driver:
-        try:
-            add_screenshot(web_browser)
-            attach.add_html(web_browser)
-            attach.add_logs(web_browser)
-            attach.add_video_web(web_browser)
-        finally:
-            web_driver.quit()
+    try:
+        yield _init
+    finally:
+        if web_driver:
+            try:
+                add_screenshot(web_browser)
+                attach.add_html(web_browser)
+                attach.add_logs(web_browser)
+                attach.add_video_web(web_browser)
+            except Exception as e:
+                print(f"Failed to attach web browser artifacts: {e}")
+            finally:
+                web_driver.quit()
