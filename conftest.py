@@ -31,7 +31,6 @@ def mobile_browser_init(load_env):
                 "platformName": "android",
                 "platformVersion": "11.0",
                 "deviceName": "Google Pixel 4",
-                "timezone": 'Moscow',
                 "app": "bs://081d0ea196cf35675f23093215cf24b321216e08",
                 'bstack:options': {
                     "projectName": "bg_spas",
