@@ -1,5 +1,6 @@
 import re
 import os
+import pytz
 import allure
 import random
 import string
@@ -487,7 +488,8 @@ class MobileSpas:
         browser.element((AppiumBy.ACCESSIBILITY_ID, 'cloud_upload ОТПРАВИТЬ')).click()
         sleep(3)
 
-        current_datetime_now = datetime.now()
+        moscow_timezone = pytz.timezone('Europe/Moscow')
+        current_datetime_now = datetime.now(moscow_timezone)
         current_datetime_str = current_datetime_now.strftime("%d.%m.%Y %H:%M")
         previous_datetime_str = (current_datetime_now - timedelta(minutes=1)).strftime("%d.%m.%Y %H:%M")
 
