@@ -1,5 +1,4 @@
 import allure
-
 from bg_spas_collection.suites.spas_suites import SpasSuites
 
 
@@ -13,7 +12,6 @@ def test_full_spas_card(mobile_browser_init, web_browser_init):
 
     with allure.step("Send SPAS card in mobile app"):
         mobile_spas = spas_suites.send_spas_card_in_mobile_app(mobile_browser)
-        mobile_driver.quit()
 
     with allure.step("Verify SPAS card in web app"):
         web_browser, web_driver = web_browser_init()
