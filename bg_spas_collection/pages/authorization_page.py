@@ -109,13 +109,13 @@ class Authorization:
     @allure.step('Verifying successful authorization')
     def verifying_successful_authorization(self, mobile_browser):
         browser.config.driver = mobile_browser.config.driver
-
+        sleep(2)
         browser.element((AppiumBy.ACCESSIBILITY_ID, 'СПАС')).should(be.visible)
         return self
 
     @allure.step('Verifying unsuccessful authorization')
     def verifying_unsuccessful_authorization(self, mobile_browser):
         browser.config.driver = mobile_browser.config.driver
-
+        sleep(2)
         browser.element("// android.widget.TextView").should(be.visible)
         return self
