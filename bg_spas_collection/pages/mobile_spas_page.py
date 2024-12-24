@@ -108,7 +108,11 @@ class MobileSpas:
         dropdown_division = browser.all(
             (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().className("android.widget.ListView")'
                                            '.instance(1)')).all((AppiumBy.CLASS_NAME, 'android.view.View'))
-        sleep(1)
+
+        if len(dropdown_division) == 0:
+            browser.element('//android.widget.EditText[@index="0"]').clear()
+            browser.element('//android.widget.EditText[@index="0"]').type('в')
+
         random_choice_division = random.randint(0, len(dropdown_division) - 1)
         random_dropdown_division = dropdown_division[random_choice_division]
         random_dropdown_division.click()
@@ -451,14 +455,28 @@ class MobileSpas:
     @allure.step('Attach a photo')
     def attach_photo(self, mobile_browser):
         browser.config.driver = mobile_browser.config.driver
+        sleep(2)
 
-        for _ in range(3):
-            sleep(2)
-            browser.element('(//android.view.View[@resource-id="sheet_button"])[2]').click()
-            sleep(3)
-            browser.element(
-                '//android.widget.ImageView[@resource-id="com.google.android.documentsui:id/icon_thumb"]').click()
-            sleep(1)
+        browser.element('(//android.view.View[@resource-id="sheet_button"])[2]').click()
+
+        try:
+            photo_element = browser.element(
+                '//android.widget.ImageView[@resource-id="com.google.android.documentsui:id/icon_thumb"]'
+            )
+
+            if not photo_element.should(be.visible):
+                mobile_browser.config.driver.back()
+                self.quantity_attachment = '1'
+            else:
+                mobile_browser.config.driver.back()
+                for _ in range(3):
+                    browser.element('(//android.view.View[@resource-id="sheet_button"])[2]').click()
+                    sleep(3)
+                    photo_element.click()
+                    sleep(1)
+        except Exception:
+            self.quantity_attachment = '1'
+            mobile_browser.config.driver.back()
 
         return self
 
@@ -473,8 +491,9 @@ class MobileSpas:
         element = WebDriverWait(browser.driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, card_element)))
         content_desc = element.get_attribute('content-desc')
+        sleep(1)
         match = re.search(r'# (\d+)', content_desc)
-        sleep(3)
+        sleep(4)
         if match:
             self.card_number = match.group(1)
 
